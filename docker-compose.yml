@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-x-superset-image: &superset-image apachesuperset.docker.scarf.sh/apache/superset:${TAG:-latest-dev}
+x-superset-image: &superset-image nexus.anorbank.uz:8082/apache/superset:${TAG:-latest-dev}
 x-superset-user: &superset-user root
 x-superset-depends-on: &superset-depends-on
   - db
@@ -30,7 +30,7 @@ x-superset-volumes: &superset-volumes
 version: "3.7"
 services:
   nginx:
-    image: nginx:latest
+    image: nexus.anorbank.uz:8082/nginx:latest
     container_name: superset_nginx
     restart: unless-stopped
     ports:
@@ -40,7 +40,7 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
   redis:
-    image: redis:7
+    image: nexus.anorbank.uz:8082/redis:7
     container_name: superset_cache
     restart: unless-stopped
     ports:
@@ -50,7 +50,7 @@ services:
 
   db:
     env_file: docker/.env
-    image: postgres:15
+    image: nexus.anorbank.uz:8082/postgres:15
     container_name: superset_db
     restart: unless-stopped
     ports:
@@ -115,7 +115,7 @@ services:
       disable: true
 
   superset-node:
-    image: node:16
+    image: nexus.anorbank.uz:8082/node:16
     container_name: superset_node
     command: ["/app/docker/docker-frontend.sh"]
     env_file: docker/.env
